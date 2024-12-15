@@ -65,7 +65,7 @@ class RestClient implements Client
     {
         try {
             $this->logger->info('LndClient Request (Get)', ['uri' => $uri]);
-            $response = $this->httpClient->get($uri, ['query' => $queryParams]);
+            $response = $this->httpClient->get($uri, $queryParams ? ['query' => $queryParams] : []);
             $body = \GuzzleHttp\json_decode($response->getBody(), true);
             return $body;
         } catch (BadResponseException $exception) {
@@ -74,10 +74,11 @@ class RestClient implements Client
         }
     }
 
-    private function delete(string $uri, array $queryParams = []){
+    private function delete(string $uri, array $queryParams = [])
+    {
         try {
             $this->logger->info('LndClient Request (Delete)', ['uri' => $uri]);
-            $response = $this->httpClient->delete($uri,['query' => $queryParams]);
+            $response = $this->httpClient->delete($uri, $queryParams ? ['query' => $queryParams] : []);
             $body = \GuzzleHttp\json_decode($response->getBody(), true);
             return $body;
         } catch (BadResponseException $exception) {
